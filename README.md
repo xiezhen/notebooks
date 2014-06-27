@@ -1,4 +1,4 @@
 notebooks
 =========
 
-my ipython notebooks
+my ipython notebook collection 
