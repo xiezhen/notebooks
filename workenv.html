@@ -1,44 +1,12 @@
-
 <!DOCTYPE html>
 <html>
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="chrome=1" />
-
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-<title>workenv slides</title>
+<title>workenv</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-<!-- General and theme style sheets -->
-<link rel="stylesheet" href="/css/reveal.css">
-<link rel="stylesheet" href="/css/theme/simple.css" id="theme">
-
-<!-- For syntax highlighting -->
-<link rel="stylesheet" href="/lib/css/zenburn.css">
-
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = '/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-}
-
-</script>
-
-<!--[if lt IE 9]>
-<script src="/lib/js/html5shiv.js"></script>
-<![endif]-->
-
-<!-- Get Font-awesome from cdn -->
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
 
 <style type="text/css">
     .clearfix{*zoom:1}.clearfix:before,.clearfix:after{display:table;content:"";line-height:0}
@@ -1650,100 +1618,34 @@ span#checkpoint_status,span#autosave_status{font-size:small}
 
 <style type="text/css">
 /* Overrides of notebook CSS for static HTML export */
-html {
-  overflow-y: auto;
+body {
+  overflow: visible;
+  padding: 8px;
 }
-.reveal {
-  font-size: 160%;
+
+div#notebook {
+  overflow: visible;
+  border-top: none;
 }
-.reveal pre {
-  width: inherit;
-  padding: 0.4em;
-  margin: 0px;
-  font-family: monospace, sans-serif;
-  font-size: 80%;
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-}
-.reveal section img {
-  border: 0px solid black;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0);
-}
-.reveal i {
-  font-style: normal;
-  font-family: FontAwesome;
-  font-size: 2em;
-}
-.reveal .slides {
-  text-align: left;
-}
-.reveal.fade {
-  opacity: 1;
-}
-.reveal .progress {
-  position: static;
-}
-div.input_area {
-  padding: 0.06em;
-}
-div.code_cell {
-  background-color: transparent;
-}
-div.prompt {
-  width: 11ex;
-  padding: 0.4em;
-  margin: 0px;
-  font-family: monospace, sans-serif;
-  font-size: 80%;
-  text-align: right;
-}
-div.output_area pre {
-  font-family: monospace, sans-serif;
-  font-size: 80%;
-}
-div.output_prompt {
-  /* 5px right shift to account for margin in parent container */
-  margin: 5px 5px 0 0;
-}
-.rendered_html p {
-  text-align: inherit;
+
+@media print {
+  div.cell {
+    display: block;
+    page-break-inside: avoid;
+  } 
+  div.output_wrapper { 
+    display: block;
+    page-break-inside: avoid; 
+  }
+  div.output { 
+    display: block;
+    page-break-inside: avoid; 
+  }
 }
 </style>
 
 <!-- Custom stylesheet, it must be in the same directory as the html file -->
 <link rel="stylesheet" href="custom.css">
-
-</head>
-
-<body>
-<div class="reveal">
-<div class="slides">
-
-</div>
-</div>
-
-<script src="/lib/js/head.min.js"></script>
-
-<script src="/js/reveal.js"></script>
-
-<script>
-
-// Full list of configuration options available here: https://github.com/hakimel/reveal.js#configuration
-Reveal.initialize({
-controls: true,
-progress: true,
-history: true,
-
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/none
-
-// Optional libraries used to extend on reveal.js
-dependencies: [
-{ src: "/lib/js/classList.js", condition: function() { return !document.body.classList; } },
-{ src: "/plugin/highlight/highlight.js", async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-{ src: "/plugin/notes/notes.js", async: true, condition: function() { return !!document.body.classList; } }
-]
-});
-</script>
 
 <!-- Loading mathjax macro -->
 <!-- Load mathjax -->
@@ -1768,13 +1670,1267 @@ dependencies: [
     </script>
     <!-- End of mathjax configuration -->
 
+</head>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<style type="text/css">
+div.output_wrapper {
+  margin-top: 0px;
+}
+.output_hidden {
+  display: none;
+  margin-top: 5px;
+}
+
+div.input_wrapper {
+  margin-top: 0px;
+}
+.input_hidden {
+  display: block;
+  margin-top: 5px;
+}
+</style>
+
 <script>
-Reveal.addEventListener( 'slidechanged', function( event ) {
-  window.scrollTo(0,0);
-  MathJax.Hub.Rerender(event.currentSlide);
-});
+$(document).ready(function(){
+  $(".output_hidden").click(function(){
+      $(this).prev('.input_hidden').slideToggle();
+  });
+  $(".input_hidden").click(function(){
+      $(this).next('.output_hidden').slideToggle();
+  });
+
+})
 </script>
+<body>
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
 
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[48]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="c"># Remember workdir</span>
+<span class="n">workdir</span><span class="o">=%</span><span class="k">pwd</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[49]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre>%%bash --out output --err error
+svn co <span class="s2">&quot;https://svn.cern.ch/reps/cmsos/branches/bril/daq/bril&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[50]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="c"># Check bash output</span>
+<span class="k">print</span> <span class="n">output</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+A    bril/pltprocessor
+A    bril/timesource
+A    bril/timesource/xml
+A    bril/timesource/xml/timesource.sensor
+A    bril/timesource/xml/timesource.pulser
+A    bril/timesource/xml/timesource.flash
+A    bril/timesource/include
+A    bril/timesource/include/bril
+A    bril/timesource/include/bril/timesource
+A    bril/timesource/include/bril/timesource/DataGenerator.h
+A    bril/timesource/include/bril/timesource/NBTimer.h
+A    bril/timesource/include/bril/timesource/Application.h
+A    bril/timesource/include/bril/timesource/AppGUI.h
+A    bril/timesource/include/bril/timesource/version.h
+A    bril/timesource/include/bril/timesource/Common.h
+A    bril/timesource/include/bril/timesource/exception
+A    bril/timesource/include/bril/timesource/exception/TimeSourceAlarm.h
+A    bril/timesource/include/bril/timesource/exception/Exception.h
+A    bril/timesource/html
+A    bril/timesource/html/js
+A    bril/timesource/html/js/toggle.js
+A    bril/timesource/src
+A    bril/timesource/src/common
+A    bril/timesource/src/common/DataGenerator.cc
+A    bril/timesource/src/common/NBTimer.cc
+A    bril/timesource/src/common/Application.cc
+A    bril/timesource/src/common/AppGUI.cc
+A    bril/timesource/src/common/version.cc
+A    bril/timesource/Makefile
+A    bril/pltslinkprocessor
+A    bril/pltsource
+A    bril/dipbroker
+A    bril/pltslinksource
+A    bril/lumistore
+A    bril/lumistore/test
+A    bril/lumistore/test/common
+A    bril/lumistore/test/common/test_OutputFile.cpp
+A    bril/lumistore/test/common/test_readback.py
+A    bril/lumistore/test/common/test_StorageUnit.cpp
+A    bril/lumistore/test/common/hdf5
+A    bril/lumistore/test/common/hdf5/test_Utils.cpp
+A    bril/lumistore/test/common/hdf5/test_hdf5write.cpp
+A    bril/lumistore/test/common/hdf5/test_VariableTable.cpp
+A    bril/lumistore/test/common/test_DiskWriter.cpp
+A    bril/lumistore/xml
+A    bril/lumistore/include
+A    bril/lumistore/include/bril
+A    bril/lumistore/include/bril/lumistore
+A    bril/lumistore/include/bril/lumistore/StreamConfigStore.h
+A    bril/lumistore/include/bril/lumistore/OutputFile.h
+A    bril/lumistore/include/bril/lumistore/StreamQueue.h
+A    bril/lumistore/include/bril/lumistore/hdf5
+A    bril/lumistore/include/bril/lumistore/hdf5/VariableTable.h
+A    bril/lumistore/include/bril/lumistore/hdf5/Utils.h
+A    bril/lumistore/include/bril/lumistore/hdf5/VariableCollection.h
+A    bril/lumistore/include/bril/lumistore/hdf5/DataSet.h
+A    bril/lumistore/include/bril/lumistore/hdf5/Variable.h
+A    bril/lumistore/include/bril/lumistore/hdf5/TimeIndex.h
+A    bril/lumistore/include/bril/lumistore/hdf5/exception
+A    bril/lumistore/include/bril/lumistore/Application.h
+A    bril/lumistore/include/bril/lumistore/OutputFileStatus.h
+A    bril/lumistore/include/bril/lumistore/StorageUnit.h
+A    bril/lumistore/include/bril/lumistore/HDF5OutputFile.h
+A    bril/lumistore/include/bril/lumistore/StreamID.h
+A    bril/lumistore/include/bril/lumistore/exception
+A    bril/lumistore/include/bril/lumistore/exception/Exception.h
+A    bril/lumistore/include/bril/lumistore/StreamQueueStore.h
+A    bril/lumistore/include/bril/lumistore/StreamConfig.h
+A    bril/lumistore/include/bril/lumistore/TopicDescription.h
+A    bril/lumistore/include/bril/lumistore/version.h
+A    bril/lumistore/include/bril/lumistore/OutputFileConfig.h
+A    bril/lumistore/include/bril/lumistore/DiskWriter.h
+A    bril/lumistore/singletests
+A    bril/lumistore/singletests/test
+A    bril/lumistore/singletests/test/common
+A    bril/lumistore/singletests/test/common/test_hdf5_hyperslab.cpp
+A    bril/lumistore/singletests/test/common/test_coral.cpp
+A    bril/lumistore/singletests/test/common/test_hdf5_unlimited.cpp
+A    bril/lumistore/singletests/test/common/test_hdf5_ref.cpp
+A    bril/lumistore/singletests/test/common/test_hdf5_vlenstr.cpp
+A    bril/lumistore/singletests/test/common/test_hdf5.cpp
+A    bril/lumistore/singletests/test/common/test_hdf5_stdstr.cpp
+A    bril/lumistore/singletests/test/common/test_hdf5_compound.cpp
+A    bril/lumistore/singletests/test/common/test_hdf5_table.cpp
+A    bril/lumistore/singletests/mfDefs.linux
+A    bril/lumistore/singletests/Makefile.rules
+A    bril/lumistore/singletests/mfAutoconf.rules
+A    bril/lumistore/singletests/Makefile
+A    bril/lumistore/db
+A    bril/lumistore/db/test
+A    bril/lumistore/db/test/common
+A    bril/lumistore/db/test/common/test_query.cpp
+A    bril/lumistore/db/test/common/test_hltquery.cpp
+A    bril/lumistore/db/mfDefs.linux
+A    bril/lumistore/db/include
+A    bril/lumistore/db/include/bril
+A    bril/lumistore/db/include/bril/lumistore
+A    bril/lumistore/db/include/bril/lumistore/db
+A    bril/lumistore/db/include/bril/lumistore/db/DBQuery.h
+A    bril/lumistore/db/include/bril/lumistore/db/DBFactory.h
+A    bril/lumistore/db/Makefile.rules
+A    bril/lumistore/db/src
+A    bril/lumistore/db/src/common
+A    bril/lumistore/db/src/common/DBQuery.cc
+A    bril/lumistore/db/src/common/DBFactory.cc
+A    bril/lumistore/db/mfAutoconf.rules
+A    bril/lumistore/db/Makefile
+A    bril/lumistore/scripts
+A    bril/lumistore/src
+A    bril/lumistore/src/common
+A    bril/lumistore/src/common/StreamQueueStore.cc
+A    bril/lumistore/src/common/StreamConfigStore.cc
+A    bril/lumistore/src/common/OutputFile.cc
+A    bril/lumistore/src/common/hdf5
+A    bril/lumistore/src/common/hdf5/VariableTable.cc
+A    bril/lumistore/src/common/hdf5/Utils.cc
+A    bril/lumistore/src/common/hdf5/VariableCollection.cc
+A    bril/lumistore/src/common/hdf5/DataSet.cc
+A    bril/lumistore/src/common/hdf5/Variable.cc
+A    bril/lumistore/src/common/hdf5/TimeIndex.cc
+A    bril/lumistore/src/common/Application.cc
+A    bril/lumistore/src/common/StorageUnit.cc
+A    bril/lumistore/src/common/version.cc
+A    bril/lumistore/src/common/DiskWriter.cc
+A    bril/lumistore/src/common/HDF5OutputFile.cc
+A    bril/lumistore/src/common/StreamID.cc
+A    bril/lumistore/pyfile
+A    bril/lumistore/pyfile/pyhd5lumi.py
+A    bril/lumistore/Makefile
+A    bril/lumistore/pydb
+A    bril/lumistore/pydb/genoracle.py
+A    bril/lumistore/pydb/data
+A    bril/lumistore/pydb/data/schema_global.yaml
+A    bril/lumistore/pydb/data/resource.yaml
+A    bril/lumistore/pydb/data/schema_data.yaml
+A    bril/extern
+A    bril/extern/brilcondacore
+A    bril/extern/brilcondacore/brilcondaheader.sh
+A    bril/extern/brilcondacore/build_brilconda_core_pkgs.sh
+A    bril/extern/brilcondacore/gen_brilconda_core_installer.sh
+A    bril/extern/brilcondacore/daq-extern-brilcondacore.spec
+A    bril/extern/brilcondacore/README.md
+A    bril/extern/brilcondacore/Makefile
+A    bril/extern/brilcondacore/dellist.txt
+A    bril/extern/README.md
+A    bril/extern/dip
+A    bril/extern/dip/daq-extern-dip.spec
+A    bril/extern/dip/Makefile
+A    bril/scripts
+A    bril/scripts/eventing
+A    bril/scripts/eventing/eventing.template
+A    bril/scripts/eventing/template.param
+A    bril/scripts/eventing/eventing_inzone.template
+A    bril/scripts/stopApp.sh
+A    bril/scripts/timesource
+A    bril/scripts/timesource/timesource_datagenerator.template
+A    bril/scripts/timesource/template.param
+A    bril/scripts/timesource/timesource_datagenerator_inzone.template
+A    bril/scripts/xaas_bril.txt
+A    bril/scripts/default.profile
+A    bril/scripts/lumistore
+A    bril/scripts/lumistore/lumistore_inzone.template
+A    bril/scripts/lumistore/template.param
+A    bril/scripts/lumistore/lumistore.template
+A    bril/scripts/generatexml.sh
+A    bril/scripts/generator.txt
+A    bril/scripts/spec.template
+A    bril/scripts/freeportscanner.py
+A    bril/scripts/brilenv.sh
+A    bril/scripts/ReadMe.txt
+A    bril/scripts/test_brilcondacore.py
+A    bril/scripts/Makefile
+A    bril/scripts/webprogramming.txt
+A    bril/bcm1fprocessor
+A    bril/bcm1fsource
+Checked out revision 23988.
+
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[51]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="c"># Where I am now </span>
+<span class="o">%</span><span class="k">pwd</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[51]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+u&apos;/home/zhen/work/pynb/sandbox/zx/bril/scripts&apos;
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[52]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="c"># list from top level workdir</span>
+<span class="o">%</span><span class="k">ls</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+<span class="ansibold ansiblue">bril</span>/            <span class="ansibold ansigreen">freeportscanner.py</span>*  Makefile       test_brilcondacore.py                webprogramming.txt
+<span class="ansibold ansigreen">brilenv.sh</span>*      <span class="ansibold ansigreen">generatexml.sh</span>*      ReadMe.txt     <span class="ansibold ansiblue">timesource</span>/                          xaas_bril.txt
+default.profile  generator.txt        spec.template  timesource_datagenerator_inzone.xml
+<span class="ansibold ansiblue">eventing</span>/        <span class="ansibold ansiblue">lumistore</span>/           <span class="ansibold ansigreen">stopApp.sh</span>*    timesource_datagenerator.xml
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[53]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="c"># Go to scripts directory where all the controls are</span>
+<span class="o">%</span><span class="k">cd</span> <span class="n">bril</span><span class="o">/</span><span class="n">scripts</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+/home/zhen/work/pynb/sandbox/zx/bril/scripts/bril/scripts
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[54]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="o">%</span><span class="k">ls</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+<span class="ansibold ansigreen">brilenv.sh</span>*      <span class="ansibold ansigreen">freeportscanner.py</span>*  <span class="ansibold ansiblue">lumistore</span>/  spec.template          <span class="ansibold ansiblue">timesource</span>/
+default.profile  <span class="ansibold ansigreen">generatexml.sh</span>*      Makefile    <span class="ansibold ansigreen">stopApp.sh</span>*            webprogramming.txt
+<span class="ansibold ansiblue">eventing</span>/        generator.txt        ReadMe.txt  test_brilcondacore.py  xaas_bril.txt
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[55]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre>%%bash
+<span class="nb">source </span>brilenv.sh
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+LD_LIBRARY_PATH is  /home/zhen/work/pynb/sandbox/zx/bril/scripts/bril/scripts/../../../x86_64_slc6/lib:/opt/brilconda/lib:/opt/xdaq/lib:/home/zhen/brilconda/lib:/home/zhen/brilconda/root/lib
+PATH is  /opt/brilconda/bin:/home/zhen/brilconda/bin:/home/zhen/brilconda/root/bin:/usr/lib/jvm/java-1.6.0/bin:/home/zhen/scripts:/home/zhen/brilconda/bin:/home/zhen/brilconda/root/bin:/usr/lib/jvm/java-1.6.0/bin:/usr/sue/bin:/opt/WinCC_OA/3.11/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/zhen/bin:/home/zhen/bin
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[56]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre>%%bash 
+./generatexml.sh timesource
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+sources:
+    timesource/template.param,timesource/timesource_datagenerator.template
+generated:
+    /home/zhen/work/pynb/sandbox/zx/bril/scripts/bril/scripts/timesource_datagenerator.xml
+command per context:
+   /opt/xdaq/bin/xdaq.exe -p 40000 -c /home/zhen/work/pynb/sandbox/zx/bril/scripts/bril/scripts/timesource_datagenerator.xml 
+   /opt/xdaq/bin/xdaq.exe -p 40001 -c /home/zhen/work/pynb/sandbox/zx/bril/scripts/bril/scripts/timesource_datagenerator.xml 
+
+sources:
+    timesource/template.param,timesource/timesource_datagenerator_inzone.template
+generated:
+    /home/zhen/work/pynb/sandbox/zx/bril/scripts/bril/scripts/timesource_datagenerator_inzone.xml
+command per context:
+   /opt/xdaq/bin/xdaq.exe -p 40000 -c /home/zhen/work/pynb/sandbox/zx/bril/scripts/bril/scripts/timesource_datagenerator_inzone.xml -z bril
+   /opt/xdaq/bin/xdaq.exe -p 40001 -c /home/zhen/work/pynb/sandbox/zx/bril/scripts/bril/scripts/timesource_datagenerator_inzone.xml -z bril
+
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[57]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="o">%</span><span class="k">cat</span> <span class="n">timesource</span><span class="o">/</span><span class="n">template</span><span class="o">.</span><span class="n">param</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+%hostname%=&#96;hostname -f&#96;
+%tscontextport%=40000
+%tsendpoint%=400001
+%dgcontextport%=40001
+%dgendpoint%=400011
+%eventinghostname%=&#96;hostname -f&#96;
+%utcpport%=30020
+%localdaqroot%=
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[58]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="o">%</span><span class="k">cat</span> <span class="n">timesource</span><span class="o">/</span><span class="n">timesource_datagenerator</span><span class="o">.</span><span class="n">template</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;xc:Partition xmlns:soapenc=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot; xmlns:xc=&quot;http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+
+ &lt;xc:Context url=&quot;http://%hostname%:%tscontextport%&quot;&gt;
+    &lt;xc:Endpoint protocol=&quot;utcp&quot; service=&quot;b2in&quot; rmode=&quot;select&quot; hostname=&quot;%hostname%&quot; port=&quot;%tsendpoint%&quot; network=&quot;utcp1&quot; sndTimeout=&quot;0&quot; rcvTimeout=&quot;0&quot; affinity=&quot;RCV:P,SND:W,DSR:W,DSS:W&quot; singleThread=&quot;true&quot; publish=&quot;true&quot;/&gt;
+
+    &lt;xc:Application class=&quot;pt::utcp::Application&quot; id=&quot;12&quot; instance=&quot;0&quot; network=&quot;local&quot;&gt;
+      &lt;properties xmlns=&quot;urn:xdaq-application:pt::utcp::Application&quot; xsi:type=&quot;soapenc:Struct&quot;&gt;
+	&lt;maxClients xsi:type=&quot;xsd:unsignedInt&quot;&gt;10&lt;/maxClients&gt;
+        &lt;autoConnect xsi:type=&quot;xsd:boolean&quot;&gt;false&lt;/autoConnect&gt;
+        &lt;ioQueueSize xsi:type=&quot;xsd:unsignedInt&quot;&gt;65536&lt;/ioQueueSize&gt;
+        &lt;eventQueueSize xsi:type=&quot;xsd:unsignedInt&quot;&gt;65536&lt;/eventQueueSize&gt;
+        &lt;maxReceiveBuffers xsi:type=&quot;xsd:unsignedInt&quot;&gt;2&lt;/maxReceiveBuffers&gt;
+        &lt;maxBlockSize xsi:type=&quot;xsd:unsignedInt&quot;&gt;4096&lt;/maxBlockSize&gt;
+        &lt;committedPoolSize xsi:type=&quot;xsd:double&quot;&gt;0x100000&lt;/committedPoolSize&gt; 
+      &lt;/properties&gt;
+    &lt;/xc:Application&gt;
+    &lt;xc:Module&gt;${XDAQ_ROOT}/lib/libtcpla.so&lt;/xc:Module&gt;
+    &lt;xc:Module&gt;${XDAQ_ROOT}/lib/libptutcp.so&lt;/xc:Module&gt;
+	       
+    &lt;xc:Application class=&quot;eventing::core::Publisher&quot; id=&quot;16&quot; instance=&quot;0&quot; network=&quot;utcp1&quot; group=&quot;b2in&quot; service=&quot;tx&quot;&gt;
+      &lt;properties xmlns=&quot;urn:xdaq-application:eventing::core::Publisher&quot; xsi:type=&quot;soapenc:Struct&quot;&gt;
+	&lt;eventings xsi:type=&quot;soapenc:Array&quot; soapenc:arrayType=&quot;xsd:ur-type[1]&quot;&gt;
+          &lt;item xsi:type=&quot;xsd:string&quot; soapenc:position=&quot;[0]&quot;&gt;utcp://%eventinghostname%:%utcpport%&lt;/item&gt;
+        &lt;/eventings&gt;
+      &lt;/properties&gt;
+    &lt;/xc:Application&gt;
+    
+    &lt;xc:Module&gt;${XDAQ_ROOT}/lib/libb2inutils.so&lt;/xc:Module&gt;
+    &lt;xc:Module&gt;${XDAQ_ROOT}/lib/libeventingcore.so&lt;/xc:Module&gt;
+    
+&lt;xc:Application class=&quot;bril::timesource::Application&quot; id=&quot;11&quot; instance=&quot;0&quot; network=&quot;local&quot;&gt;
+  &lt;properties xmlns=&quot;urn:xdaq-application:bril::timesource::Application&quot; xsi:type=&quot;soapenc:Struct&quot;&gt;
+    &lt;simSource xsi:type=&quot;xsd:boolean&quot;&gt;true&lt;/simSource&gt;
+    &lt;swInitRun xsi:type=&quot;xsd:unsignedInt&quot;&gt;65536&lt;/swInitRun&gt;
+    &lt;swLSPerRun xsi:type=&quot;xsd:unsignedInt&quot;&gt;2&lt;/swLSPerRun&gt;
+    &lt;swNRuns xsi:type=&quot;xsd:unsignedInt&quot;&gt;2&lt;/swNRuns&gt;
+    &lt;swRunPerFill xsi:type=&quot;xsd:unsignedInt&quot;&gt;1&lt;/swRunPerFill&gt;
+    &lt;swNBTimers xsi:type=&quot;soapenc:Array&quot; soapenc:arrayType=&quot;xsd:ur-type[2]&quot;&gt;
+      &lt;item xsi:type=&quot;soapenc:Struct&quot;  soapenc:position=&quot;[0]&quot;&gt; 
+        &lt;properties xsi:type=&quot;soapenc:Struct&quot;&gt;
+         &lt;signalTopic xsi:type=&quot;xsd:string&quot;&gt;NB4&lt;/signalTopic&gt;
+         &lt;nbFrequency xsi:type=&quot;xsd:string&quot;&gt;4&lt;/nbFrequency&gt;
+        &lt;/properties&gt;
+      &lt;/item&gt;
+      &lt;item xsi:type=&quot;soapenc:Struct&quot;  soapenc:position=&quot;[1]&quot;&gt; 
+        &lt;properties xsi:type=&quot;soapenc:Struct&quot;&gt;
+           &lt;signalTopic xsi:type=&quot;xsd:string&quot;&gt;NB64&lt;/signalTopic&gt;
+           &lt;nbFrequency xsi:type=&quot;xsd:string&quot;&gt;64&lt;/nbFrequency&gt;
+        &lt;/properties&gt;
+      &lt;/item&gt; 
+    &lt;/swNBTimers&gt;
+  &lt;/properties&gt;
+&lt;/xc:Application&gt;
+&lt;xc:Module&gt;${XDAQ_ROOT}/lib/libeventingapi.so&lt;/xc:Module&gt;
+&lt;xc:Module&gt;%localdaqroot%/lib/libbriltimesource.so&lt;/xc:Module&gt;	   
+&lt;/xc:Context&gt;
+
+  &lt;xc:Context url=&quot;http://%hostname%:%dgcontextport%&quot;&gt;
+ &lt;xc:Endpoint protocol=&quot;utcp&quot; service=&quot;b2in&quot; rmode=&quot;select&quot; hostname=&quot;%hostname%&quot; port=&quot;%dgendpoint%&quot; network=&quot;utcp1&quot; sndTimeout=&quot;0&quot; rcvTimeout=&quot;0&quot; affinity=&quot;RCV:P,SND:W,DSR:W,DSS:W&quot; singleThread=&quot;true&quot; publish=&quot;true&quot;/&gt;
+ &lt;xc:Application class=&quot;pt::utcp::Application&quot; id=&quot;12&quot; instance=&quot;0&quot; network=&quot;local&quot;&gt;
+      &lt;properties xmlns=&quot;urn:xdaq-application:pt::utcp::Application&quot; xsi:type=&quot;soapenc:Struct&quot;&gt;
+	&lt;maxClients xsi:type=&quot;xsd:unsignedInt&quot;&gt;10&lt;/maxClients&gt;
+        &lt;autoConnect xsi:type=&quot;xsd:boolean&quot;&gt;false&lt;/autoConnect&gt;
+        &lt;ioQueueSize xsi:type=&quot;xsd:unsignedInt&quot;&gt;65536&lt;/ioQueueSize&gt;
+        &lt;eventQueueSize xsi:type=&quot;xsd:unsignedInt&quot;&gt;65536&lt;/eventQueueSize&gt;
+        &lt;maxReceiveBuffers xsi:type=&quot;xsd:unsignedInt&quot;&gt;2&lt;/maxReceiveBuffers&gt;
+        &lt;maxBlockSize xsi:type=&quot;xsd:unsignedInt&quot;&gt;4096&lt;/maxBlockSize&gt;
+        &lt;committedPoolSize xsi:type=&quot;xsd:double&quot;&gt;0x100000&lt;/committedPoolSize&gt; 
+      &lt;/properties&gt;
+   &lt;/xc:Application&gt;
+   &lt;xc:Module&gt;${XDAQ_ROOT}/lib/libtcpla.so&lt;/xc:Module&gt;
+   &lt;xc:Module&gt;${XDAQ_ROOT}/lib/libptutcp.so&lt;/xc:Module&gt;
+	       
+ &lt;xc:Application class=&quot;eventing::core::Publisher&quot; id=&quot;19&quot; instance=&quot;0&quot; network=&quot;utcp1&quot; group=&quot;b2in&quot; service=&quot;ts&quot;&gt;
+    &lt;properties xmlns=&quot;urn:xdaq-application:eventing::core::Publisher&quot; xsi:type=&quot;soapenc:Struct&quot;&gt;
+      &lt;eventings xsi:type=&quot;soapenc:Array&quot; soapenc:arrayType=&quot;xsd:ur-type[1]&quot;&gt;
+        &lt;item xsi:type=&quot;xsd:string&quot; soapenc:position=&quot;[0]&quot;&gt;utcp://%eventinghostname%:%utcpport%&lt;/item&gt;
+      &lt;/eventings&gt;
+    &lt;/properties&gt;
+ &lt;/xc:Application&gt;
+ &lt;xc:Application class=&quot;eventing::core::Subscriber&quot; id=&quot;18&quot; instance=&quot;0&quot; network=&quot;utcp1&quot; group=&quot;b2in&quot; service=&quot;tx&quot;&gt;
+    &lt;properties xmlns=&quot;urn:xdaq-application:eventing::core::Subscriber&quot; xsi:type=&quot;soapenc:Struct&quot;&gt;
+     &lt;eventings xsi:type=&quot;soapenc:Array&quot; soapenc:arrayType=&quot;xsd:ur-type[1]&quot;&gt;
+       &lt;item xsi:type=&quot;xsd:string&quot; soapenc:position=&quot;[0]&quot;&gt;utcp://%eventinghostname%:%utcpport%&lt;/item&gt;
+     &lt;/eventings&gt;
+   &lt;/properties&gt;
+ &lt;/xc:Application&gt;
+ &lt;xc:Module&gt;${XDAQ_ROOT}/lib/libb2inutils.so&lt;/xc:Module&gt;
+ &lt;xc:Module&gt;${XDAQ_ROOT}/lib/libeventingcore.so&lt;/xc:Module&gt;
+ &lt;xc:Application class=&quot;bril::timesource::DataGenerator&quot; id=&quot;111&quot; instance=&quot;0&quot; network=&quot;local&quot; service=&quot;simdata&quot; &gt;
+   &lt;properties xmlns=&quot;urn:xdaq-application:bril::timesource::DataGenerator&quot; xsi:type=&quot;soapenc:Struct&quot;&gt;
+     &lt;dataTopics xsi:type=&quot;soapenc:Array&quot; soapenc:arrayType=&quot;xsd:ur-type[1]&quot;&gt;
+       &lt;item xsi:type=&quot;soapenc:Struct&quot;  soapenc:position=&quot;[0]&quot;&gt; 
+          &lt;properties xsi:type=&quot;soapenc:Struct&quot;&gt;
+	    &lt;signalTopic xsi:type=&quot;xsd:string&quot;&gt;NB4&lt;/signalTopic&gt;
+            &lt;dataTopic xsi:type=&quot;xsd:string&quot;&gt;bestbxlumi&lt;/dataTopic&gt;
+	  &lt;/properties&gt;
+       &lt;/item&gt;
+     &lt;/dataTopics&gt;
+   &lt;/properties&gt;
+ &lt;/xc:Application&gt;
+ &lt;xc:Module&gt;${XDAQ_ROOT}/lib/libeventingapi.so&lt;/xc:Module&gt;
+ &lt;xc:Module&gt;%localdaqroot%/lib/libbriltimesource.so&lt;/xc:Module&gt;	   
+&lt;/xc:Context&gt;
+&lt;/xc:Partition&gt;
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[59]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="c"># Scan for 10 free ports in default range</span>
+<span class="o">%</span><span class="k">run</span> <span class="n">freeportscanner</span><span class="o">.</span><span class="n">py</span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+scan range: [30000,30010)
+free ports: [30000, 30002, 30003, 30004, 30005, 30006, 30007, 30008, 30009]
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[60]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="c"># Scan for 10 free ports starting from the mininal value</span>
+<span class="o">%</span><span class="k">run</span> <span class="n">freeportscanner</span><span class="o">.</span><span class="n">py</span> <span class="mi">50000</span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+scan range: [50000,50010)
+free ports: [50000, 50001, 50002, 50003, 50004, 50005, 50006, 50007, 50008, 50009]
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[61]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="c"># Scan for free ports in a precise range</span>
+<span class="o">%</span><span class="k">run</span> <span class="n">freeportscanner</span><span class="o">.</span><span class="n">py</span> <span class="mi">50000</span> <span class="mi">50020</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+scan range: [50000,50020)
+free ports: [50000, 50001, 50002, 50003, 50004, 50005, 50006, 50007, 50008, 50009, 50010, 50011, 50012, 50013, 50014, 50015, 50016, 50017, 50018, 50019]
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[62]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="c"># Select your free context port number, and remember it</span>
+<span class="n">contextport</span> <span class="o">=</span> <span class="mi">40000</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[63]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+<span class="n">hostname</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()</span>
+<span class="n">xdaqcontexturl</span> <span class="o">=</span> <span class="s">&#39;http://</span><span class="si">%s</span><span class="s">:</span><span class="si">%d</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span><span class="n">contextport</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">IFrame</span>
+<span class="n">display</span><span class="p">(</span><span class="n">IFrame</span><span class="p">(</span><span class="n">xdaqcontexturl</span><span class="p">,</span> <span class="s">&#39;100%&#39;</span><span class="p">,</span> <span class="s">&#39;600px&#39;</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+
+        <iframe
+            width="100%"
+            height=600px"
+            src="http://pczhen.cern.ch:40000"
+            frameborder="0"
+            allowfullscreen
+        ></iframe>
+        
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>yay! Play with xdaq web now . &quot;bril timesource&quot; is you, all the others are the xdaq services you are using. </p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[64]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="o">!</span><span class="nb">echo</span> <span class="nv">$EDITOR</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+/bin/nano -w
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[67]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="o">%</span><span class="k">edit</span> <span class="n">timesource</span><span class="o">/</span><span class="n">template</span><span class="o">.</span><span class="n">param</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="stop-application-by-port-number">stop application by port number<a class="anchor-link" href="#stop-application-by-port-number">&#182;</a></h3>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[65]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="c"># Export contextport from python to bash </span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;mycontextport&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">contextport</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[47]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="o">!</span>./stopApp.sh <span class="nv">$mycontextport</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+                     USER        PID ACCESS COMMAND
+40000/tcp:           zhen      23746 F.... xdaq.exe
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Working-with-graphics">Working with graphics<a class="anchor-link" href="#Working-with-graphics">&#182;</a></h2>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[70]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="o">!</span>vim timesource/template.param
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+7[?47h[?1h=[1;32r[H[2J[32;1H&quot;timesource/template.param&quot; 8L, 175C[&gt;c[1;1H%hostname%=&#96;hostname -f&#96;
+%tscontextport%=40000
+%tsendpoint%=400001
+%dgcontextport%=40001
+%dgendpoint%=400011
+%eventinghostname%=&#96;hostname -f&#96;
+%utcpport%=30020
+%localdaqroot%=
+</span><span class="ansiblue">~                                                                                                                              [10;1H~                                                                                                                              [11;1H~                                                                                                                              [12;1H~                                                                                                                              [13;1H~                                                                                                                              [14;1H~                                                                                                                              [15;1H~                                                                                                                              [16;1H~                                                                                                                              [17;1H~                                                                                                                              [18;1H~                                                                                                                              [19;1H~                                                                                                                              [20;1H~                                                                                                                              [21;1H~                                                                                                                              [22;1H~                                                                                                                              [23;1H~                                                                                                                              [24;1H~                                                                                                                              [25;1H~                                                                                                                              [26;1H~                                                                                                                              [27;1H~                                                                                                                              [28;1H~                                                                                                                              [29;1H~                                                                                                                              [30;1H~                                                                                                                              [31;1H~                                                                                                                              </span>[32;110H1,1[11CAll[1;1H[32;1HType  :quit&lt;Enter&gt;  to exit Vim[32;33H[K[32;110H1,1[11CAll[1;1H[32;110H2[2;1H
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[69]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">fda</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_pyerr">
+<pre>
+<span class="ansired">---------------------------------------------------------------------------</span>
+<span class="ansired">NameError</span>                                 Traceback (most recent call last)
+<span class="ansigreen">&lt;ipython-input-69-13e4408a3b42&gt;</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
+<span class="ansigreen">----&gt; 1</span><span class="ansiyellow"> </span>fda<span class="ansiyellow"></span>
+
+<span class="ansired">NameError</span>: name &apos;fda&apos; is not defined</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[72]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="o">!</span>gvim timesource/template.param
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+/bin/sh: gvim: command not found
+
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_pyerr">
+<pre>
+<span class="ansired">---------------------------------------------------------------------------</span>
+<span class="ansired">NameError</span>                                 Traceback (most recent call last)
+<span class="ansigreen">&lt;ipython-input-72-3ae67933ec06&gt;</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
+<span class="ansigreen">      1</span> get_ipython<span class="ansiyellow">(</span><span class="ansiyellow">)</span><span class="ansiyellow">.</span>system<span class="ansiyellow">(</span><span class="ansiblue">u&apos;gvim timeso&apos;</span><span class="ansiyellow">)</span><span class="ansiyellow"></span>
+<span class="ansigreen">----&gt; 2</span><span class="ansiyellow"> </span>urce<span class="ansiyellow">/</span>template<span class="ansiyellow">.</span>param<span class="ansiyellow"></span>
+
+<span class="ansired">NameError</span>: name &apos;urce&apos; is not defined</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[2]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="o">%</span><span class="k">ls</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="output_hidden">
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+<span class="ansibold ansiblue">bril</span>/  workenv.ipynb  workenv.py
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input_hidden">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[71]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+    </div>
+  </div>
 </body>
-
 </html>
